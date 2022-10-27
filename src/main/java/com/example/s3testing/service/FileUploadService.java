@@ -1,20 +1,20 @@
 package com.example.s3testing.service;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.example.s3testing.model.dto.ImageRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.naming.InvalidNameException;
 import java.io.InputStream;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 @Service
 public class FileUploadService {
 
     private final UploadService s3service;
+    private final ImageRoomService imageRoomService;
 
     // Multipart를 통해 전송된 파일을 업로드하는 메서드
     public String uploadImage(MultipartFile file){
@@ -29,6 +29,30 @@ public class FileUploadService {
             throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생했습니다."));
         }
         return s3service.getFileUrl(fileName);
+    }
+
+    public int uploadRoomImage(MultipartFile file, int roomId){
+        String fileName = createFileName(file.getOriginalFilename());
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+        objectMetadata.setContentType(file.getContentType());
+        try (InputStream inputStream = file.getInputStream()) {
+            s3service.uploadFile(inputStream, objectMetadata, fileName);
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생했습니다."));
+        }
+        String url = s3service.getFileUrl(fileName);
+        int res = 0;
+        if(url != null){
+            ImageRoom imageRoom = ImageRoom.builder()
+                    .roomId(roomId)
+                    .imageUrl(url)
+                    .build();
+            res = imageRoomService.uploadRoomImage(imageRoom);
+        }
+
+        return res;
     }
 
     // 기존 확장자명을 유지한 채, 유니크한 파일명을 생성하는 로직
