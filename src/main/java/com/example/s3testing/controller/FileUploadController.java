@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class FileUploadController {
@@ -12,8 +14,8 @@ public class FileUploadController {
     private final FileUploadService fileUploadService;
 
     @PostMapping("/api/v1/upload")
-    public String uploadImage(@RequestPart MultipartFile file){
-        return fileUploadService.uploadImage(file);
+    public String uploadImage(@RequestPart MultipartFile file, @RequestPart(value = "roomId", required = true) int roomId){
+        return fileUploadService.uploadImage(file, roomId);
     }
 
     @PostMapping("/api/v1/uploadRoomImage")
@@ -22,12 +24,22 @@ public class FileUploadController {
     }
 
     @GetMapping("/api/v1/load")
-    public String getImage(String fileName){
-        return fileUploadService.getImage(fileName);
+    public String getImage(String fileName, int roomId){
+        return fileUploadService.getImage(fileName, roomId);
+    }
+
+    @GetMapping("/api/v1/loadRoomImage")
+    public String getRoomImage(String fileName, int roomId){
+        return fileUploadService.getRoomImage(fileName, roomId);
+    }
+
+    @GetMapping("/api/v1/loadRoomAllImages")
+    public List<String> getFileUrls(int roomId){
+        return fileUploadService.getFileUrls(roomId);
     }
 
     @DeleteMapping("/api/v1/load")
-    public String deleteImage(String fileName){
-        return fileUploadService.deleteImage(fileName);
+    public String deleteImage(String fileName, int roomId){
+        return fileUploadService.deleteImage(fileName, roomId);
     }
 }

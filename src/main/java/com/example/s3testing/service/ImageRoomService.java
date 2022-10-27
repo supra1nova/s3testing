@@ -11,7 +11,24 @@ public class ImageRoomService {
 
     private final ImageRoomDao imageRoomDao;
 
-    public int uploadRoomImage(ImageRoom imageRoom){
-        return imageRoomDao.uploadImage(imageRoom);
+    public int insertImage(ImageRoom imageRoom){
+        return imageRoomDao.insertImage(imageRoom);
     }
+
+    public String getImage(String fileName){
+        ImageRoom imageRoom = imageRoomDao.getImage(fileName);
+        return imageRoom.getImageUrl();
+    }
+
+//    public String getImage(String fileName){
+//        String roomImageId = imageRoomDao.getImage(fileName);
+//        String roomImageUrl = null;
+//        try{
+//            roomImageUrl = fileUploadService.getRoomImage(roomImageId);
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//            roomImageUrl = null;
+//        }
+//        return roomImageUrl;
+//    }
 }

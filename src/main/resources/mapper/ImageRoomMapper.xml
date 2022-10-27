@@ -4,11 +4,17 @@
 <mapper namespace="com.example.s3testing.repository.dao.ImageRoomDao">
 
 <!-- id에는 사용되는 dao 메서드 명을 넣는다 -->
-    <insert id="uploadImage" parameterType="ImageRoom">
+    <insert id="insertImage" parameterType="ImageRoom">
         INSERT INTO image_room
             (image_url, room_id)
         VALUES
             (#{imageUrl}, #{roomId})
     </insert>
+
+    <select id="getImage" resultType="ImageRoom">
+        SELECT *
+            FROM image_room
+            WHERE image_url = #{imageUrl}
+    </select>
 
 </mapper>
