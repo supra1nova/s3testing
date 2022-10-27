@@ -16,6 +16,11 @@ public class FileUploadController {
         return fileUploadService.uploadImage(file);
     }
 
+    @PostMapping("/api/v1/uploadRoomImage")
+    public int uploadRoomImage(@RequestPart(value = "file", required = true) MultipartFile file, @RequestPart(value = "roomId", required = true) int roomId){
+        return fileUploadService.uploadRoomImage(file, roomId);
+    }
+
     @GetMapping("/api/v1/load")
     public String getImage(String fileName){
         return fileUploadService.getImage(fileName);
