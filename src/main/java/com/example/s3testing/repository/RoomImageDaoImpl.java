@@ -18,7 +18,7 @@ public class RoomImageDaoImpl implements RoomImageDao {
 
     // 매퍼
     // namespace는 mapper에 명시해둔 namespace와 동일해야하며, dao interface 파일의 경로임. 확장자 제외
-    private String namespace = "com.example.s3testing.repository.dao.ImageRoomDao";
+    private String namespace = "com.example.s3testing.repository.dao.RoomImageDao";
 
     @Override
     public int insertImage(RoomImage roomImage) {
@@ -33,11 +33,13 @@ public class RoomImageDaoImpl implements RoomImageDao {
     }
 
     @Override
-    public List<String> getAllImageUrlByRoomId(int roomId) {
-        System.out.println("roomId = " + roomId);
-        List<String> a = sql.selectList(namespace + ".getAllImageUrlByRoomId", roomId);
-        System.out.println("a = " + a);
-        return sql.selectList(namespace + ".getAllImageUrlByRoomId", roomId);
+    public List<String> getAllImageNamesByRoomId(int roomId) {
+        return sql.selectList(namespace + ".getAllImageNamesByRoomId", roomId);
+    }
+
+    @Override
+    public int deleteImage(RoomImage roomImage) {
+        return sql.delete(namespace + ".deleteImage", roomImage);
     }
 
 }

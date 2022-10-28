@@ -18,18 +18,17 @@ public class AwsS3UploadService implements UploadService {
 
     @Override
     public void uploadFile(InputStream inputStream, ObjectMetadata objectMetadata, String fileName, int roomId){
-        amazonS3.putObject(new PutObjectRequest(component.getBucket() + "/" + component.getRoom() + "/" + roomId, fileName, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
+        amazonS3.putObject(new PutObjectRequest(component.getBucket() + "/" + component.getProductRoomPath() + "/" + roomId, fileName, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
     @Override
     public String getFileUrl(String fileName, int roomId){
-        System.out.println("fileName = " + fileName);
-        return amazonS3.getUrl(component.getBucket() + "/" + component.getRoom() + "/" + roomId, fileName).toString();
+        return amazonS3.getUrl(component.getBucket() + "/" + component.getProductRoomPath() + "/" + roomId, fileName).toString();
     }
 
     @Override
     public void deleteFile(String fileName, int roomId) {
-        amazonS3.deleteObject(component.getBucket() + "/" + component.getRoom() + "/" + roomId, fileName);
+        amazonS3.deleteObject(component.getBucket() + "/" + component.getProductRoomPath() + "/" + roomId, fileName);
     }
 
     @Override
@@ -37,7 +36,7 @@ public class AwsS3UploadService implements UploadService {
         List<String> list = new ArrayList<>();
         ListObjectsRequest listObject = new ListObjectsRequest();
         listObject.setBucketName(component.getBucket());
-        listObject.setPrefix(component.getRoom() + "/" + roomId);
+        listObject.setPrefix(component.getProductRoomPath() + "/" + roomId);
         ObjectListing objects = amazonS3.listObjects(listObject);
         do {
             // 이곳에 명시할 bucketName은 디렉토리를 제외해야 정상적으로 작동할 것 같다. -> prefix에 directory 정보를 모두 넣는다

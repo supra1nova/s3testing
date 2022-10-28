@@ -7,5 +7,6 @@ import java.util.List;
 public interface RoomImageDao {
     int insertImage(RoomImage roomImage);
     RoomImage getImage(String fileName);
-    List<String> getAllImageUrlByRoomId(int roomId);
+    List<String> getAllImageNamesByRoomId(int roomId);
+    int deleteImage(RoomImage roomImage);
 }
