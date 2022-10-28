@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ImageRoom {
+public class RoomImage {
 
 	@NotBlank(message= "Null 값이 들어왔습니다.")
 	@URL(message = "유효한 url 형식이 아닙니다.")

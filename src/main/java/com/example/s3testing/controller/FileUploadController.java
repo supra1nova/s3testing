@@ -33,10 +33,18 @@ public class FileUploadController {
         return fileUploadService.getRoomImage(fileName, roomId);
     }
 
-    @GetMapping("/api/v1/loadRoomAllImages")
-    public List<String> getFileUrls(int roomId){
-        return fileUploadService.getFileUrls(roomId);
+    //  aws bucket에 실제로 접속해서 모든 데이터를 가져오는 메서드
+//    @GetMapping("/api/v1/loadRoomAllImages")
+//    public List<String> getFileUrls(int roomId){
+//        return fileUploadService.getFileUrls(roomId);
+//    }
+
+    // db 내 데이터를 가져오는 구조(aws 비접속)
+    @GetMapping("/api/v1/loadAllRoomImageUrls")
+    public List<String> getAllImageUrlByRoomId(int roomId){
+        return fileUploadService.getAllImageUrlByRoomId(roomId);
     }
+
 
     @DeleteMapping("/api/v1/load")
     public String deleteImage(String fileName, int roomId){

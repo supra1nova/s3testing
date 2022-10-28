@@ -9,7 +9,7 @@
 
     <typeAliases>
         <!--    alias는 대소문자 구분하지 않는다.    -->
-        <typeAlias alias="ImageRoom" type="com.example.s3testing.model.dto.ImageRoom"/>
+        <typeAlias alias="RoomImage" type="com.example.s3testing.model.dto.RoomImage"/>
     </typeAliases>
 
 

@@ -1,7 +1,7 @@
 package com.example.s3testing.service;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.example.s3testing.model.dto.ImageRoom;
+import com.example.s3testing.model.dto.RoomImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class FileUploadService {
 
     private final UploadService s3service;
-    private final ImageRoomService imageRoomService;
+    private final RoomImageService roomImageService;
 
     // Multipart를 통해 전송된 파일을 업로드하는 메서드
     public String uploadImage(MultipartFile file, int roomId){
@@ -47,12 +47,12 @@ public class FileUploadService {
         String url = s3service.getFileUrl(fileName, roomId);
         int res = 0;
         if(url != null){
-            String roomImageName = url.split("room/")[1];
-            ImageRoom imageRoom = ImageRoom.builder()
+            String roomImageName = url.substring(url.lastIndexOf("/")+1);
+            RoomImage roomImage = RoomImage.builder()
                     .roomId(roomId)
                     .imageUrl(roomImageName)
                     .build();
-            res = imageRoomService.insertImage(imageRoom);
+            res = roomImageService.insertImage(roomImage);
         }
 
         return res;
@@ -75,7 +75,7 @@ public class FileUploadService {
 
     public String getRoomImage(String fileName, int roomId) {
         try {
-            String roomImageName = imageRoomService.getImage(fileName);
+            String roomImageName = roomImageService.getImage(fileName);
             return s3service.getFileUrl(roomImageName, roomId);
         } catch (Exception e){
             e.printStackTrace();
@@ -85,6 +85,10 @@ public class FileUploadService {
 
     public List<String> getFileUrls(int roomId){
         return s3service.getFileUrls(roomId);
+    }
+
+    public List<String> getAllImageUrlByRoomId(int roomId){
+        return roomImageService.getAllImageUrlByRoomId(roomId);
     }
 
     public String deleteImage(String fileName, int roomId) {

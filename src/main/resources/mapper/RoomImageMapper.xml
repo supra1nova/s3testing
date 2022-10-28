@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace는 dao implements 의 namespace에 명시해둔 namespace와 동일해야하며, dao interface 파일의 경로임.(확장자 제외) -->
-<mapper namespace="com.example.s3testing.repository.dao.ImageRoomDao">
+<mapper namespace="com.example.s3testing.repository.dao.RoomImageDao">
+
+    <sql id="selectAllFromRoomImage">
+        SELECT * FROM room_image
+    </sql>
 
 <!-- id에는 사용되는 dao 메서드 명을 넣는다 -->
-    <insert id="insertImage" parameterType="ImageRoom">
-        INSERT INTO image_room
+    <insert id="insertImage" parameterType="RoomImage">
+        INSERT INTO room_image
             (image_url, room_id)
         VALUES
             (#{imageUrl}, #{roomId})
     </insert>
 
-    <select id="getImage" resultType="ImageRoom">
-        SELECT *
-            FROM image_room
+    <select id="getImage" resultType="RoomImage">
+        <include refid="selectAllFromRoomImage" />
             WHERE image_url = #{imageUrl}
+    </select>
+
+    <select id="getAllImageUrlByRoomId" resultType="String">
+        <include refid="selectAllFromRoomImage" />
+            WHERE room_id = #{roomId}
     </select>
 
 </mapper>

@@ -1,23 +1,30 @@
 package com.example.s3testing.service;
 
-import com.example.s3testing.model.dto.ImageRoom;
-import com.example.s3testing.repository.dao.ImageRoomDao;
+import com.example.s3testing.model.dto.RoomImage;
+import com.example.s3testing.repository.dao.RoomImageDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
-public class ImageRoomService {
+public class RoomImageService {
 
-    private final ImageRoomDao imageRoomDao;
+    private final RoomImageDao roomImageDao;
 
-    public int insertImage(ImageRoom imageRoom){
-        return imageRoomDao.insertImage(imageRoom);
+    public int insertImage(RoomImage roomImage){
+        return roomImageDao.insertImage(roomImage);
     }
 
     public String getImage(String fileName){
-        ImageRoom imageRoom = imageRoomDao.getImage(fileName);
-        return imageRoom.getImageUrl();
+        RoomImage roomImage = roomImageDao.getImage(fileName);
+        return roomImage.getImageUrl();
+    }
+
+    public List<String> getAllImageUrlByRoomId(int roomId){
+        System.out.println("roomId = " + roomId);
+        return roomImageDao.getAllImageUrlByRoomId(roomId);
     }
 
 //    public String getImage(String fileName){
