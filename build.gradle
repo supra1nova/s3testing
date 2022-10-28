@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'  // amazonaws.util.Base64 관련 warn으로 설치
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'   // aws s3 관련
     implementation 'io.springfox:springfox-boot-starter:3.0.0'  // swagger 관련
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'    // swagger ui 관련

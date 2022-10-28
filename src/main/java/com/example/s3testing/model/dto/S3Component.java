@@ -23,9 +23,10 @@ public class S3Component {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${cloud.aws.s3.folder.room}")
-    private String room;
+    @Value(value = "product")
+    private String productPath;
 
-    @Value("${cloud.aws.s3.folder.product}")
-    private String product;
+    @Value(value = "product/room")
+    private String productRoomPath;
+
 }

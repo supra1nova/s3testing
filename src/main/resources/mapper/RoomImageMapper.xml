@@ -20,9 +20,16 @@
             WHERE image_url = #{imageUrl}
     </select>
 
-    <select id="getAllImageUrlByRoomId" resultType="String">
+    <select id="getAllImageNamesByRoomId" resultType="String">
         <include refid="selectAllFromRoomImage" />
             WHERE room_id = #{roomId}
     </select>
+
+    <delete id="deleteImage" parameterType="RoomImage">
+        DELETE FROM room_image
+        WHERE
+            room_id = #{roomId} AND
+            image_url = #{imageUrl}
+    </delete>
 
 </mapper>
